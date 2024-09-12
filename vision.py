@@ -20,15 +20,22 @@ st.header("My First Gemini Image LLM Based Application")
 st.write("Developed by Sandeep Monga")
 
 input=st.text_input("Input: ",key="input")
-
-uploaded_file=st.file_uploader("Choose an image...",type=["jpg","jpeg","png"])
 image=""
-
-if uploaded_file:
-    image=Image.open(uploaded_file)
+#cam_click=st.button("Click to Open Camera...")
+#if cam_click:
+cam_input=st.camera_input("camera input",key="cam_input")
+if cam_input:
+    image=Image.open(cam_input)
     st.image(image,caption="Uploaded image",use_column_width=True)
+else:
+    uploaded_file=st.file_uploader("Choose an image...",type=["jpg","jpeg","png"])
+    if uploaded_file:
+        image=Image.open(uploaded_file)
+        st.image(image,caption="Uploaded image",use_column_width=True)
 
 submit=st.button("Tell me something about this image..")
 if submit:
     response=get_gemini_response(input,image)
     st.write(response)
+else:
+    st.write("No image selected")
